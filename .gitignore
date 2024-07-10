@@ -1,0 +1,23 @@
+# Archivos generados automáticamente por Django
+*.pyc
+*.pyo
+__pycache__
+
+# Archivos de configuración local
+.env
+*.sqlite3
+
+# Archivos de registro y archivos temporales
+log/
+media/
+
+# Dependencias de Python (se recomienda usar un entorno virtual)
+venv/
+env/
+
+# Otros archivos específicos del entorno o IDE
+.idea/
+.vscode/
+# Excluir todos los archivos de migraciones, excepto __init__.py
+**/migrations/*
+!**/migrations/__init__.py
