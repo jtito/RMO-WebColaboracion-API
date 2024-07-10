@@ -11,9 +11,10 @@ __pycache__
 log/
 media/
 
-# Dependencias de Python (se recomienda usar un entorno virtual)
+# Dependencias de Python 
 venv/
 env/
+
 
 # Otros archivos específicos del entorno o IDE
 .idea/
@@ -21,3 +22,6 @@ env/
 # Excluir todos los archivos de migraciones, excepto __init__.py
 **/migrations/*
 !**/migrations/__init__.py
+
+
+/RMO/settings.py

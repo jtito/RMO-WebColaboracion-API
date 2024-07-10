@@ -17,3 +17,9 @@ class UsuarioSerializer(ModelSerializer):
         if "password" in validated_data:
             validated_data["password"] = make_password(validated_data["password"])
         return super().update(instance, validated_data)
+
+
+class LoginSerializer(ModelSerializer):
+    class Meta:
+        model = Usuario
+        fields = ["email", "password"]
