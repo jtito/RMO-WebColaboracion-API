@@ -19,7 +19,7 @@ class Usuario(models.Model):
     ]
     ROLE_CHOICES = [
         ("ADMINISTRADOR", "Administrador del sistema"),
-        ("SECRETARIA ", "Secretaria Técnica (SGCAN)"),
+        ("SECRETARIA", "Secretaria Técnica (SGCAN)"),
         ("PAIS", "País Miembro (PPMM)"),
         ("ENTIDAD", "Entidad"),
         ("AREA", "Área"),
@@ -52,7 +52,7 @@ class Usuario(models.Model):
         max_length=25, blank=False, null=False, default="77777777", unique=True
     )
     email = models.CharField(
-        max_length=255, blank=False, null=False, default="ejemplo@gmail.com"
+        max_length=255, blank=False, null=False, default="ejemplo@gmail.com", unique=True
     )
     password = models.CharField(
         max_length=255, blank=False, null=False, default="12345678"

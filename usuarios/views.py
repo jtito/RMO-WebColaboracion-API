@@ -4,8 +4,8 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Usuario
-from django.contrib.auth.hashers import check_password
 from .utils import get_tokens_for_user
+from rest_framework import status
 
 # Create your views here.
 
@@ -17,26 +17,21 @@ class UserView(ModelViewSet):
 
 class LoginView(APIView):
     def post(self, request, *args, **kwargs):
-        user_request = LoginSerializer(data=request.data)
-        if not user_request.is_valid():
-            return Response({"message": user_request.errors}, status=401)
+        print(f"Datos de solicitud recibidos: {request.data}")
 
-        user = Usuario.objects.get(email=user_request.data["email"])
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            print("Serializer válido")
 
-        if not user:
-            return Response({"message": "Email y/o password incorrectos"}, status=401)
-        user_serializer = UserSerializer(user).data
-
-        if not check_password(
-            user_request.data["password"], user_serializer.get("password")
-        ):
-            return Response({"message": "Email y/o password incorrectos"}, status=401)
-        tokens = get_tokens_for_user(user)
-
-        return Response(
-            {
-                "user": user_serializer,
+            user = serializer.validated_data['user']
+            user_serializer = UserSerializer(user)
+            tokens = get_tokens_for_user(user)
+            return Response({
+                "user": user_serializer.data,
                 "access_token": tokens["access"],
                 "refresh_token": tokens["refresh"],
-            }
-        )
+            }, status=status.HTTP_200_OK)
+        else:
+            print(f"Errores de serializer: {serializer.errors}")
+
+            return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
