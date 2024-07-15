@@ -17,12 +17,8 @@ class UserView(ModelViewSet):
 
 class LoginView(APIView):
     def post(self, request, *args, **kwargs):
-        print(f"Datos de solicitud recibidos: {request.data}")
-
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
-            print("Serializer válido")
-
             user = serializer.validated_data['user']
             user_serializer = UserSerializer(user)
             tokens = get_tokens_for_user(user)
@@ -32,6 +28,5 @@ class LoginView(APIView):
                 "refresh_token": tokens["refresh"],
             }, status=status.HTTP_200_OK)
         else:
-            print(f"Errores de serializer: {serializer.errors}")
 
             return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
