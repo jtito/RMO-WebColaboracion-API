@@ -1,5 +1,5 @@
 from .models import Usuario
-from .serializers import UsuarioSerializer, LoginSerializer
+from .serializers import UserSerializer, LoginSerializer
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -10,9 +10,9 @@ from .utils import get_tokens_for_user
 # Create your views here.
 
 
-class UsuarioView(ModelViewSet):
+class UserView(ModelViewSet):
     queryset = Usuario.objects.all()
-    serializer_class = UsuarioSerializer
+    serializer_class = UserSerializer
 
 
 class LoginView(APIView):
@@ -25,7 +25,7 @@ class LoginView(APIView):
 
         if not user:
             return Response({"message": "Email y/o password incorrectos"}, status=401)
-        user_serializer = UsuarioSerializer(user).data
+        user_serializer = UserSerializer(user).data
 
         if not check_password(
             user_request.data["password"], user_serializer.get("password")
