@@ -5,6 +5,7 @@ Repositorio del proyecto Backend para el portal de colaboracion.
 
 Sigue estos pasos para configurar y ejecutar el proyecto localmente.
 
+PARA TODA INSTALACION EL ENTORNO VIRTUAL DEBE ESTAR ENCENDIDO.
 
 ```bash
 # Crea el entorno virtual
@@ -38,3 +39,23 @@ DATABASES = {
         "PORT": "5432",
     }
 }
+
+
+
+
+###Pasos para los tokens 
+```bash
+
+#Instalamos JWT para los tokens
+pip install djangorestframework-simplejwt
+
+#en settings.py
+
+INSTALLED_APPS = [
+    ...
+    'rest_framework_simplejwt',
+    ...
+]
+
+
+
