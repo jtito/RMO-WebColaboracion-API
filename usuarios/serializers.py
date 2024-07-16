@@ -48,3 +48,15 @@ class LoginSerializer(serializers.Serializer):
 
         data["user"] = user
         return data
+
+class CountrySerializer(serializers.Serializer):
+    value = serializers.CharField()
+    display_name = serializers.CharField()
+
+class TypeDocSerializer(serializers.Serializer):
+    value = serializers.CharField()
+    display_name = serializers.CharField()
+
+class RoleSerializer(serializers.Serializer):
+    value = serializers.CharField()
+    display_name = serializers.CharField()
