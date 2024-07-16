@@ -4,7 +4,7 @@ from .models import Usuario
 
 
 class UsuariosAdmin(admin.ModelAdmin):
-    list_display = ["id","rol", "name", "last_nameF","last_nameS","tipo_doc","num_doc","is_active"]
+    list_display = ["id","role", "name", "last_nameF","last_nameS","type_doc","doc_num","is_active"]
 
 
 

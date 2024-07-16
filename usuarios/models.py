@@ -4,19 +4,27 @@ from django.db import models
 
 
 class Usuario(models.Model):
-    TIPODOC_CHOICES = [
+
+    COUNTRIES_CHOICES = [
+        ("BOLIVIA", "Bolivia"),
+        ("COLOMBIA", "Colombia"),
+        ("ECUADOR", "Ecuador"),
+        ("PERÚ", "Perú"),
+    ]
+
+    TYPEDOC_CHOICES = [
         ("DNI", "DNI"),
         ("CARNET", "Carnet de extranjeria"),
         ("PASSPORT", "Pasaporte"),
     ]
     ROLE_CHOICES = [
-        ("ADMINISTRADOR", "Administrador"),
-        ("SECRETARIA", "Secretaria"),
-        ("PAIS", "País"),
+        ("ADMINISTRADOR", "Administrador del sistema"),
+        ("SECRETARIA", "Secretaria Técnica (SGCAN)"),
+        ("PAIS", "País Miembro (PPMM)"),
         ("ENTIDAD", "Entidad"),
         ("AREA", "Área"),
     ]
-    rol = models.CharField(
+    role = models.CharField(
         max_length=50,
         choices=ROLE_CHOICES,
         null=False,
@@ -26,18 +34,25 @@ class Usuario(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False)
     last_nameF = models.CharField(max_length=255, blank=False, null=False)
     last_nameS = models.CharField(max_length=255, blank=False, null=False)
-    tipo_doc = models.CharField(
+    country = models.CharField(
         max_length=50,
-        choices=TIPODOC_CHOICES,
+        choices=COUNTRIES_CHOICES,
+        null=False,
+        blank=False,
+        default="Perú"
+    )
+    type_doc = models.CharField(
+        max_length=50,
+        choices=TYPEDOC_CHOICES,
         null=False,
         blank=False,
         default="DNI",
     )
-    num_doc = models.CharField(
+    doc_num = models.CharField(
         max_length=25, blank=False, null=False, default="77777777", unique=True
     )
     email = models.CharField(
-        max_length=255, blank=False, null=False, default="ejemplo@gmail.com"
+        max_length=255, blank=False, null=False, default="ejemplo@gmail.com", unique=True
     )
     password = models.CharField(
         max_length=255, blank=False, null=False, default="12345678"

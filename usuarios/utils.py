@@ -1,5 +1,5 @@
-from rest_framework_simplejwt.tokens import RefreshToken, UntypedToken, AccessToken
-from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
+from rest_framework_simplejwt.tokens import RefreshToken, UntypedToken, AccessToken # type: ignore
+from rest_framework_simplejwt.exceptions import InvalidToken, TokenError # type: ignore
 
 
 def get_tokens_for_user(user):

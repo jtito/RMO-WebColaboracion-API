@@ -1,9 +1,9 @@
 from rest_framework.routers import DefaultRouter
-from .views import UsuarioView, LoginView
+from .views import UserView, LoginView
 from django.urls import path
 
 router = DefaultRouter()
-router.register(r"usuarios", UsuarioView, basename="usuario")
+router.register(r"usuarios", UserView, basename="usuario")
 
 
 #cuando es APIVIEW agregamos aqui
