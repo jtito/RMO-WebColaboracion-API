@@ -14,7 +14,7 @@ media/
 # Dependencias de Python 
 venv/
 env/
-
+settings.py
 
 # Otros archivos específicos del entorno o IDE
 .idea/
