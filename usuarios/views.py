@@ -30,3 +30,31 @@ class LoginView(APIView):
         else:
 
             return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
+        
+
+class CountryChoicesView(APIView):
+    def get(self, request, *args, **kwargs):
+        country_choices = Usuario.get_country_choices()
+        formatted_choices = [
+            {"value": value, "display_name": display_name}
+            for value, display_name in country_choices
+        ]
+        return Response(formatted_choices)
+
+class RoleChoicesView(APIView):
+    def get(self, request, *args, **kwargs):
+        role_choices = Usuario.get_role_choices()
+        formatted_choices = [
+            {"value": value, "display_name": display_name}
+            for value, display_name in role_choices
+        ]
+        return Response(formatted_choices)
+
+class TypeDocChoicesView(APIView):
+    def get(self, request, *args, **kwargs):
+        type_doc_choices = Usuario.get_type_doc_choices()
+        formatted_choices = [
+            {"value": value, "display_name": display_name}
+            for value, display_name in type_doc_choices
+        ]
+        return Response(formatted_choices)
