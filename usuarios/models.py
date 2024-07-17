@@ -6,23 +6,23 @@ from django.db import models
 class Usuario(models.Model):
 
     COUNTRIES_CHOICES = [
-        ("BOLIVIA", "Bolivia"),
-        ("COLOMBIA", "Colombia"),
-        ("ECUADOR", "Ecuador"),
-        ("PERÚ", "Perú"),
+        (1, "Bolivia"),
+        (2, "Colombia"),
+        (3, "Ecuador"),
+        (4, "Perú"),
     ]
 
     TYPEDOC_CHOICES = [
-        ("DNI", "DNI"),
-        ("CARNET", "Carnet de extranjeria"),
-        ("PASSPORT", "Pasaporte"),
+        (1, "DNI"),
+        (2, "Carnet de extranjeria"),
+        (3, "Pasaporte"),
     ]
     ROLE_CHOICES = [
-        ("ADMINISTRADOR", "Administrador del sistema"),
-        ("SECRETARIA", "Secretaria Técnica (SGCAN)"),
-        ("PAIS", "País Miembro (PPMM)"),
-        ("ENTIDAD", "Entidad"),
-        ("AREA", "Área"),
+        (1, "Administrador del sistema"),
+        (2, "Secretaria Técnica (SGCAN)"),
+        (3, "País Miembro (PPMM)"),
+        (4, "Entidad"),
+        (5, "Área"),
     ]
     role = models.CharField(
         max_length=50,
@@ -39,7 +39,7 @@ class Usuario(models.Model):
         choices=COUNTRIES_CHOICES,
         null=False,
         blank=False,
-        default="Perú"
+        default="Perú",
     )
     type_doc = models.CharField(
         max_length=50,
@@ -52,7 +52,11 @@ class Usuario(models.Model):
         max_length=25, blank=False, null=False, default="77777777", unique=True
     )
     email = models.CharField(
-        max_length=255, blank=False, null=False, default="ejemplo@gmail.com", unique=True
+        max_length=255,
+        blank=False,
+        null=False,
+        default="ejemplo@gmail.com",
+        unique=True,
     )
     password = models.CharField(
         max_length=255, blank=False, null=False, default="12345678"
@@ -66,3 +70,15 @@ class Usuario(models.Model):
 
     class Meta:
         db_table = "usuario"
+
+    @staticmethod
+    def get_role_choices():
+        return Usuario.ROLE_CHOICES
+
+    @staticmethod
+    def get_type_doc_choices():
+        return Usuario.TYPEDOC_CHOICES
+
+    @staticmethod
+    def get_country_choices():
+        return Usuario.COUNTRIES_CHOICES
