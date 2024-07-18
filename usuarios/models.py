@@ -29,7 +29,7 @@ class Usuario(models.Model):
         choices=ROLE_CHOICES,
         null=False,
         blank=False,
-        default="ADMINISTRADOR",
+        default=1,
     )
     name = models.CharField(max_length=255, blank=False, null=False)
     last_nameF = models.CharField(max_length=255, blank=False, null=False)
@@ -39,14 +39,14 @@ class Usuario(models.Model):
         choices=COUNTRIES_CHOICES,
         null=False,
         blank=False,
-        default="Perú",
+        default=1,
     )
     type_doc = models.CharField(
         max_length=50,
         choices=TYPEDOC_CHOICES,
         null=False,
         blank=False,
-        default="DNI",
+        default=1,
     )
     doc_num = models.CharField(
         max_length=25, blank=False, null=False, default="77777777", unique=True
@@ -82,3 +82,12 @@ class Usuario(models.Model):
     @staticmethod
     def get_country_choices():
         return Usuario.COUNTRIES_CHOICES
+    
+    def get_country_display(self):
+        return dict(self.COUNTRIES_CHOICES).get(int(self.country))
+
+    def get_role_display(self):
+        return dict(self.ROLE_CHOICES).get(int(self.role))
+
+    def get_type_doc_display(self):
+        return dict(self.TYPEDOC_CHOICES).get(int(self.type_doc))
