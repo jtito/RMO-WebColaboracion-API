@@ -6,9 +6,23 @@ from django.contrib.auth.hashers import check_password
 
 
 class UserSerializer(ModelSerializer):
+    country_display = serializers.SerializerMethodField()
+    role_display = serializers.SerializerMethodField()
+    type_doc_display = serializers.SerializerMethodField()
+
     class Meta:
         model = Usuario
         fields = "__all__"
+        extra_kwargs = {"password": {"write_only": True}}
+
+    def get_country_display(self, obj):
+        return obj.get_country_display()
+
+    def get_role_display(self, obj):
+        return obj.get_role_display()
+
+    def get_type_doc_display(self, obj):
+        return obj.get_type_doc_display()
 
     def create(self, validated_data):
         if "password" in validated_data:
@@ -49,13 +63,16 @@ class LoginSerializer(serializers.Serializer):
         data["user"] = user
         return data
 
+
 class CountrySerializer(serializers.Serializer):
     value = serializers.CharField()
     display_name = serializers.CharField()
 
+
 class TypeDocSerializer(serializers.Serializer):
     value = serializers.CharField()
     display_name = serializers.CharField()
+
 
 class RoleSerializer(serializers.Serializer):
     value = serializers.CharField()
