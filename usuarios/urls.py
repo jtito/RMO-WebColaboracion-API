@@ -7,7 +7,6 @@ router.register(r"usuarios", UserView, basename="usuario")
 
 
 custom_urlpatterns = [
-    path("role/",RoleChoicesView.as_view(),name="role-choices"),
     path("countries/",CountryChoicesView.as_view(),name="country-choices"),
     path("typedocs/",TypeDocChoicesView.as_view(),name="typedocs-choices"),
 ]
