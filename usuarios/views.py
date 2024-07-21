@@ -1,5 +1,5 @@
 from .models import Usuario
-from .serializers import UserSerializer, LoginSerializer
+from .serializers import UserGetSerializer,UserPostPutSerializer, LoginSerializer
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -12,7 +12,10 @@ from rest_framework import status
 
 class UserView(ModelViewSet):
     queryset = Usuario.objects.all()
-    serializer_class = UserSerializer
+    def get_serializer_class(self):
+        if self.request.method in ['POST','PUT','PATCH']:
+            return UserPostPutSerializer
+        return UserGetSerializer
 
 
 class LoginView(APIView):
@@ -20,7 +23,7 @@ class LoginView(APIView):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.validated_data['user']
-            user_serializer = UserSerializer(user)
+            user_serializer = UserGetSerializer(user)
             tokens = get_tokens_for_user(user)
             return Response({
                 "user": user_serializer.data,
@@ -41,14 +44,6 @@ class CountryChoicesView(APIView):
         ]
         return Response(formatted_choices)
 
-class RoleChoicesView(APIView):
-    def get(self, request, *args, **kwargs):
-        role_choices = Usuario.get_role_choices()
-        formatted_choices = [
-            {"value": value, "display_name": display_name}
-            for value, display_name in role_choices
-        ]
-        return Response(formatted_choices)
 
 class TypeDocChoicesView(APIView):
     def get(self, request, *args, **kwargs):
