@@ -1,5 +1,5 @@
 from rest_framework.routers import DefaultRouter
-from .views import UserView, LoginView, CountryChoicesView,RoleChoicesView,TypeDocChoicesView
+from .views import UserView, LoginView, CountryChoicesView,TypeDocChoicesView
 from django.urls import path
 
 router = DefaultRouter()

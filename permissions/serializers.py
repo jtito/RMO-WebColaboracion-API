@@ -16,3 +16,7 @@ class DetailPermisosSerializer(ModelSerializer):
     class Meta:
         model = DetailPermissionDocs
         fields = "__all__"
+
+
+
+

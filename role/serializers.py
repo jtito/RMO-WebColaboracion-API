@@ -38,3 +38,7 @@ class RoleGetSerializer(ModelSerializer):
 
     def get_description(self, obj):
         return dict(Role.ROLE_CHOICES).get(obj.description, "Unknown Role")
+
+class RoleSerializer(serializers.Serializer):
+    value = serializers.CharField()
+    display_name = serializers.CharField()

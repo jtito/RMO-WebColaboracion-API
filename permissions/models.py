@@ -9,7 +9,8 @@ class Permission(models.Model):
 
     def __str__(self):
         return self.description
-
+    class Meta:
+        db_table = "permission"
 
 class DetailPermissionDocs(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -18,3 +19,5 @@ class DetailPermissionDocs(models.Model):
 
     def __str__(self) -> str:
         return f"{self.escenario_id} - {self.permission_id}"
+    class Meta:
+        db_table = "detail_permission"

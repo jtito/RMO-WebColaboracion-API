@@ -20,3 +20,11 @@ class Role(models.Model):
 
     def __str__(self) -> str:
         return dict(self.ROLE_CHOICES).get(self.description, "Unknown Role")
+    
+    class Meta:
+        db_table = "role"
+
+    @staticmethod
+    def get_role_choices():
+        return Role.ROLE_CHOICES
+ 

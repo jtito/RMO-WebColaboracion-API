@@ -6,7 +6,7 @@ from scenarios.models import Scenario
 
 @receiver(post_migrate)
 def insert_permissos(sender, **kwargs):
-    if sender.name == "Permissions":
+    if sender.name == "permissions":
         permissions = [
             (1, "Editar"),
             (2, "Crear"),
@@ -23,24 +23,36 @@ def insert_permissos(sender, **kwargs):
 
 @receiver(post_migrate)
 def insert_detalle_permisos(sender, **kwargs):
-    if sender.name == "Permissions":
+    if sender.name == "permissions":
         escenario_permisos = [
-            (1,1, 1),
-            (2,1, 2),
-            (3,1, 3),
-            (4,1, 4),
-            (5,1, 5),
-            (6,1, 6),
-            (7,2, 1),
-            (8,2, 2),
-            (9,2, 3),
-            (10,2, 4),
-            (11,2, 5),
-            (12,2, 6),
+            (1, 1, 1),
+            (2, 1, 2),
+            (3, 1, 3),
+            (4, 1, 4),
+            (5, 1, 5),
+            (6, 1, 6),
+            (7, 2, 1),
+            (8, 2, 2),
+            (9, 2, 3),
+            (10, 2, 4),
+            (11, 2, 5),
+            (12, 2, 6),
         ]
-        for detalle_id,escenario_id, permission_id in escenario_permisos:
-            escenario_instance = Scenario.objects.get(pk=escenario_id)
-            permission_instance = Permission.objects.get(pk=permission_id)
+        for detalle_id, escenario_id, permission_id in escenario_permisos:
+            try:
+                escenario_instance = Scenario.objects.get(pk=escenario_id)
+            except Scenario.DoesNotExist:
+                print(f"Escenario with id {escenario_id} does not exist.")
+                continue  # Skip this entry if the Scenario does not exist
+
+            try:
+                permission_instance = Permission.objects.get(pk=permission_id)
+            except Permission.DoesNotExist:
+                print(f"Permission with id {permission_id} does not exist.")
+                continue  # Skip this entry if the Permission does not exist
+
             DetailPermissionDocs.objects.get_or_create(
-                id=detalle_id,escenario_id=escenario_instance, permission_id=permission_instance
+                id=detalle_id,
+                escenario_id=escenario_instance,
+                permission_id=permission_instance,
             )
