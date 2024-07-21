@@ -3,14 +3,14 @@ from rest_framework.serializers import ModelSerializer
 from .models import Usuario
 from rest_framework import serializers
 from django.contrib.auth.hashers import check_password
-from role.serializers import RoleGetSerializer
+from role.serializers import RoleSerializer
 from role.models import Role
 
 class UserGetSerializer(ModelSerializer):
     country_display = serializers.SerializerMethodField()
     type_doc_display = serializers.SerializerMethodField()
 
-    role = RoleGetSerializer()
+    role = RoleSerializer()
 
     class Meta:
         model = Usuario
