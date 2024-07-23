@@ -43,6 +43,7 @@ urlpatterns = [
     path("docs/", include("documents.urls")),
     path("escenario/",include("scenarios.urls")),
     path("permisos/", include("permissions.urls")),
-    path("roles/",include("role.urls"))
+    path("roles/",include("role.urls")),
+    path("perfil/",include("perfil.urls"))
 
 ]
