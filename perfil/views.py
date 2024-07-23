@@ -13,3 +13,4 @@ class PerfilView(ModelViewSet):
 class PerfilSimpleView(ModelViewSet):
     queryset = Perfil.objects.all()
     serializer_class = PerfilSimpleSerializer
+    http_method_names=['get']

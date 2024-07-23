@@ -13,6 +13,7 @@ def insert_roles(sender, **kwargs):
             (1, "Administrador del sistema"),
             (2, "Secretaria Técnica (SGCAN)", [7, 8, 9, 10]),
             (3, "País Miembro (PPMM)", [1, 2, 3, 4, 7, 11, 12]),
+            (4, "Ninguno"),
         ]
         
         for role_id, description, *permissions in roles:
