@@ -1,6 +1,6 @@
 from django.db.models.signals import post_migrate
 from django.dispatch import receiver
-from .models import Permission, DetailPermissionDocs
+from .models import Permission, DetailPermission
 from scenarios.models import Scenario
 
 
@@ -23,6 +23,7 @@ def insert_permissos(sender, **kwargs):
 
 @receiver(post_migrate)
 def insert_detalle_permisos(sender, **kwargs):
+    print("Migrando escenario x permiso")
     if sender.name == "permissions":
         escenario_permisos = [
             (1, 1, 1),
@@ -43,15 +44,15 @@ def insert_detalle_permisos(sender, **kwargs):
                 escenario_instance = Scenario.objects.get(pk=escenario_id)
             except Scenario.DoesNotExist:
                 print(f"Escenario with id {escenario_id} does not exist.")
-                continue  # Skip this entry if the Scenario does not exist
+                continue  
 
             try:
                 permission_instance = Permission.objects.get(pk=permission_id)
             except Permission.DoesNotExist:
                 print(f"Permission with id {permission_id} does not exist.")
-                continue  # Skip this entry if the Permission does not exist
+                continue  
 
-            DetailPermissionDocs.objects.get_or_create(
+            DetailPermission.objects.get_or_create(
                 id=detalle_id,
                 escenario_id=escenario_instance,
                 permission_id=permission_instance,

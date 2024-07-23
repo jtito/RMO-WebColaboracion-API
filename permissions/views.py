@@ -1,13 +1,13 @@
 from rest_framework.viewsets import ModelViewSet
-from .models import DetailPermissionDocs, Permission
+from .models import DetailPermission, Permission
 from .serializers import (
     DetailPermisosSerializer,
     PermisionSerializer,
 )
 
 
-class DetailPermisoDocsView(ModelViewSet):
-    queryset = DetailPermissionDocs.objects.all()
+class DetailPermisoView(ModelViewSet):
+    queryset = DetailPermission.objects.all()
     serializer_class = DetailPermisosSerializer
     http_method_names = ["get"]
 

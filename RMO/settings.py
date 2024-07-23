@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "permissions",
     "role",
     "scenarios",
+    "perfil",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
