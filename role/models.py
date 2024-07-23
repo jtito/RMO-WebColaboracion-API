@@ -1,5 +1,5 @@
 from django.db import models
-from permissions.models import DetailPermissionDocs
+from permissions.models import DetailPermission
 
 
 class Role(models.Model):
@@ -7,11 +7,13 @@ class Role(models.Model):
     description = models.CharField(
         max_length=100,
     )
-    detail_permisos = models.ManyToManyField(DetailPermissionDocs, blank=False)
+    detail_permisos = models.ManyToManyField(
+        DetailPermission
+    )
 
     def __str__(self) -> str:
         return self.description
-    
+
     class Meta:
         db_table = "role"
 
