@@ -22,17 +22,14 @@ def insert_perfil(sender, **kwargs):
                 print(f"Perfil ya existente: {perfil_id} - {description}")
 
             if permissions:
-                # `permissions` debería ser una lista de permisos
-                permission_ids = permissions[0]  # Extrae la lista de permisos
+                permission_ids = permissions[0]  
                 print(f"Permisos asociados: {permission_ids}")
                 
-                # Filtra permisos usando una lista de IDs
                 permission_objs = DetailPermission.objects.filter(id__in=permission_ids)
                 print(f"Permisos encontrados: {permission_objs}")
                 
-                # Asigna permisos al rol
                 perfil.detail_permisos.set(permission_objs)
                 perfil.save()
-                print(f"Rol actualizado: {perfil_id}")
+                print(f"Perfil actualizado: {perfil_id}")
             else:
-                print(f"No se encontraron permisos para el rol {perfil_id}")
+                print(f"No se encontraron permisos para el Perfil {perfil_id}")

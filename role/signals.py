@@ -7,7 +7,7 @@ from permissions.models import DetailPermission
 def insert_roles(sender, **kwargs):
     print("Migrando roles y permisos")
     
-    if sender.name == "role":  # Asegúrate de que este nombre coincide con el nombre de tu aplicación
+    if sender.name == "role":
         print("Nombre de aplicación confirmado: ", sender.name)
         roles = [
             (1, "Administrador del sistema"),
@@ -26,15 +26,12 @@ def insert_roles(sender, **kwargs):
                 print(f"Rol ya existente: {role_id} - {description}")
             
             if permissions:
-                # `permissions` debería ser una lista de permisos
                 permission_ids = permissions[0]  # Extrae la lista de permisos
                 print(f"Permisos asociados: {permission_ids}")
                 
-                # Filtra permisos usando una lista de IDs
                 permission_objs = DetailPermission.objects.filter(id__in=permission_ids)
                 print(f"Permisos encontrados: {permission_objs}")
                 
-                # Asigna permisos al rol
                 role.detail_permisos.set(permission_objs)
                 role.save()
                 print(f"Rol actualizado: {role_id}")
