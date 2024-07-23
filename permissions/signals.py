@@ -40,20 +40,29 @@ def insert_detalle_permisos(sender, **kwargs):
             (12, 2, 6),
         ]
         for detalle_id, escenario_id, permission_id in escenario_permisos:
+            print(f"Procesando detalle_id {detalle_id} - escenario_id {escenario_id} - permission_id {permission_id}")
+            
             try:
                 escenario_instance = Scenario.objects.get(pk=escenario_id)
+                print(f"Escenario encontrado: {escenario_instance}")
             except Scenario.DoesNotExist:
-                print(f"Escenario with id {escenario_id} does not exist.")
+                print(f"Escenario con id {escenario_id} no existe.")
                 continue  
 
             try:
                 permission_instance = Permission.objects.get(pk=permission_id)
+                print(f"Permiso encontrado: {permission_instance}")
             except Permission.DoesNotExist:
-                print(f"Permission with id {permission_id} does not exist.")
+                print(f"Permiso con id {permission_id} no existe.")
                 continue  
 
-            DetailPermission.objects.get_or_create(
+            detalle_permiso, created = DetailPermission.objects.get_or_create(
                 id=detalle_id,
                 escenario_id=escenario_instance,
                 permission_id=permission_instance,
             )
+            
+            if created:
+                print(f"DetallePermission creado: {detalle_permiso}")
+            else:
+                print(f"DetallePermission ya existe: {detalle_permiso}")
