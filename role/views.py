@@ -11,3 +11,4 @@ class RoleView(ModelViewSet):
 class RoleSimpleView(ModelViewSet):
     queryset = Role.objects.all()
     serializer_class = RoleSimpleSerializer
+    http_method_names=['get']

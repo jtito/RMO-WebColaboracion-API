@@ -12,7 +12,7 @@ class Permission(models.Model):
     class Meta:
         db_table = "permission"
 
-class DetailPermissionDocs(models.Model):
+class DetailPermission(models.Model):
     id = models.IntegerField(primary_key=True)
     escenario_id = models.ForeignKey(Scenario, on_delete=models.CASCADE)
     permission_id = models.ForeignKey(Permission, on_delete=models.CASCADE)
