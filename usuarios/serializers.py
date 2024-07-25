@@ -14,7 +14,7 @@ class UserGetSerializer(ModelSerializer):
 
     class Meta:
         model = Usuario
-        fields = "__all__"
+        fields = ['id','role','name','last_nameF','last_nameS','country_display','type_doc_display','doc_num','email','is_active','create_at','updated_at']
 
     def get_type_doc_display(self, obj):
         return obj.get_type_doc_display()
@@ -22,6 +22,11 @@ class UserGetSerializer(ModelSerializer):
     def get_country_display(self, obj):
         return obj.get_country_display()
 
+
+class UserNameGetSerializer(ModelSerializer):
+     class Meta:
+        model = Usuario
+        fields = ['name','last_nameF','last_nameS']
 
 class UserPostPutSerializer(ModelSerializer):
     role = serializers.PrimaryKeyRelatedField(queryset=Role.objects.all())
