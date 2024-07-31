@@ -61,7 +61,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     'corsheaders.middleware.CorsMiddleware',
 ]
-
+CORS_ORIGIN_ALLOW_ALL = True
 ROOT_URLCONF = "RMO.urls"
 
 TEMPLATES = [
@@ -94,7 +94,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "CRIFCAN",
         "USER": "postgres",
-        "PASSWORD": "1234",
+        "PASSWORD": "admin",
         "HOST": "localhost",
         "PORT": "5432",
     }
