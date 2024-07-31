@@ -31,14 +31,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+   
     "rest_framework",
     'rest_framework_simplejwt',
-    "usuarios",
-    "documents",
-    "permissions",
-    "role",
-    "scenarios",
+    "permissions.apps.PermissionsConfig",
+    "scenarios.apps.ScenariosConfig",
+    "scenario_permissions.apps.ScenarioPermissionsConfig",
     "perfil",
+    "documents",
+    "role",
+    "usuarios",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -46,6 +48,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "drf_yasg",
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -56,6 +59,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = "RMO.urls"
@@ -75,7 +79,10 @@ TEMPLATES = [
         },
     },
 ]
-
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  
+    "http://127.0.0.1:3000",  
+]
 WSGI_APPLICATION = "RMO.wsgi.application"
 
 

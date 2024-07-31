@@ -24,4 +24,6 @@ env/
 !**/migrations/__init__.py
 
 
-/RMO/settings.py
+.pytest_cache
+.coverage
+.htmlcov

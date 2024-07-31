@@ -1,6 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from .models import DetailPermission, Permission
-from scenarios.serializers import ScenarioSerializer
+from .models import  Permission
 
 
 class PermisionSerializer(ModelSerializer):
@@ -8,14 +7,6 @@ class PermisionSerializer(ModelSerializer):
         model = Permission
         fields = "__all__"
 
-
-class DetailPermisosSerializer(ModelSerializer):
-    escenario_id = ScenarioSerializer()
-    permission_id = PermisionSerializer()
-
-    class Meta:
-        model = DetailPermission
-        fields = "__all__"
 
 
 
