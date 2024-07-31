@@ -59,3 +59,25 @@ INSTALLED_APPS = [
 
 
 
+## USANDO COVERAGE.PY
+```bash
+
+pip install pytest
+
+#para trabajos con django
+pip install pytest-django
+
+#para verificar la version de pytest
+pytest --version
+
+#instalando coverage.py
+pip install coverage
+
+#ejecutar coverage.py
+coverage run -m pytest
+
+# Genera un informe en consola
+coverage report
+
+# Genera un informe HTML
+coverage html
