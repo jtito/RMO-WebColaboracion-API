@@ -1,5 +1,5 @@
 from django.db import models
-from permissions.models import DetailPermission
+from scenario_permissions.models import DetailPermission
 
 
 class Role(models.Model):
