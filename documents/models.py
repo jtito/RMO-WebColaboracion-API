@@ -38,7 +38,8 @@ class Document(models.Model):
     typeDoc = models.ForeignKey(TypeDocument,on_delete=models.CASCADE)
     usuario_creador = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True) #JALA DE USUARIO LOGUEADO 
     title = models.TextField(max_length=200, null=True)
-    description = models.TextField(null=True)
+    description = models.TextField(max_length=200, null=True)
+    contenido = models.TextField(null=True)
     user_perfil = models.ManyToManyField(
         PerfilDocument, related_name="perfilxdocumento", null=True, blank=True
     )
