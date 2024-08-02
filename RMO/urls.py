@@ -1,5 +1,3 @@
-
-
 from django.contrib import admin
 from django.urls import path, include
 from drf_yasg.views import get_schema_view
@@ -31,4 +29,5 @@ urlpatterns = [
     path("roles/",include("role.urls")),
     path("perfil/",include("perfil.urls")),
     path("permisos/", include("scenario_permissions.urls")),
+    path('usuarios/', include('usuarios.urls')),
 ]
