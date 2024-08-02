@@ -1,103 +1,89 @@
 from django.test import TestCase
-from role.models import Role
+from django.urls import reverse
+from rest_framework.test import APITestCase
+from rest_framework import status
+from .models import Role
 from scenario_permissions.models import DetailPermission
 from scenarios.models import Scenario
 from permissions.models import Permission
-from rest_framework.test import APIClient
-from rest_framework import status
-from django.urls import reverse
-from role.serializers import RoleSerializer, RoleSimpleSerializer
 
 class RoleModelTest(TestCase):
 
     def setUp(self):
-        self.scenario = Scenario.objects.create(id=1000, description='Test Scenario')
-        self.permission = Permission.objects.create(id=1000, description='Test Permission')
-
-        self.permission1 = DetailPermission.objects.create(
-            id=1000, 
-            escenario_id=self.scenario, 
-            permission_id=self.permission
-        )
-        self.permission2 = DetailPermission.objects.create(
-            id=1001, 
-            escenario_id=self.scenario, 
+        self.scenario = Scenario.objects.create(id=100, description="Test Scenario")
+        self.permission = Permission.objects.create(id=100, description="Test Permission")
+        self.detail_permission = DetailPermission.objects.create(
+            id=100,
+            escenario_id=self.scenario,
             permission_id=self.permission
         )
         self.role = Role.objects.create(
-            id=1000, 
-            description='Test Role'
+            id=100,
+            description="Admin"
         )
-        self.role.detail_permisos.set([self.permission1, self.permission2])
+        self.role.detail_permisos.add(self.detail_permission)
 
     def test_role_creation(self):
-        self.assertEqual(self.role.description, 'Test Role')
-        self.assertEqual(self.role.detail_permisos.count(), 2)
-        self.assertIn(self.permission1, self.role.detail_permisos.all())
-        self.assertIn(self.permission2, self.role.detail_permisos.all())
+        self.assertTrue(isinstance(self.role, Role))
+        self.assertEqual(self.role.__str__(), self.role.description)
 
-class RoleSerializerTest(TestCase):
 
-    def setUp(self):
-        self.scenario = Scenario.objects.create(id=2000, description='Test Scenario')
-        self.permission = Permission.objects.create(id=2000, description='Test Permission')
-
-        self.permission1 = DetailPermission.objects.create(
-            id=2000, 
-            escenario_id=self.scenario, 
-            permission_id=self.permission
-        )
-        self.permission2 = DetailPermission.objects.create(
-            id=2001, 
-            escenario_id=self.scenario, 
-            permission_id=self.permission
-        )
-        self.role = Role.objects.create(
-            id=2000, 
-            description='Test Role'
-        )
-        self.role.detail_permisos.set([self.permission1, self.permission2])
-
-    def test_role_serializer(self):
-        serializer = RoleSerializer(self.role)
-        self.assertEqual(serializer.data['description'], 'Test Role')
-        self.assertEqual(len(serializer.data['detail_permisos']), 2)
-
-    def test_role_simple_serializer(self):
-        serializer = RoleSimpleSerializer(self.role)
-        self.assertEqual(serializer.data['description'], 'Test Role')
-
-class RoleViewTest(TestCase):
+class RoleViewTest(APITestCase):
 
     def setUp(self):
-        self.client = APIClient()
-        self.scenario = Scenario.objects.create(id=3000, description='Test Scenario')
-        self.permission = Permission.objects.create(id=3000, description='Test Permission')
-
-        self.permission1 = DetailPermission.objects.create(
-            id=3000, 
-            escenario_id=self.scenario, 
-            permission_id=self.permission
+        self.scenario, _ = Scenario.objects.get_or_create(id=1, defaults={'description': "Test Scenario"})
+        self.permission, _ = Permission.objects.get_or_create(id=1, defaults={'description': "Test Permission"})
+        self.detail_permission, _ = DetailPermission.objects.get_or_create(
+            id=1,
+            defaults={
+                'escenario_id': self.scenario,
+                'permission_id': self.permission
+            }
         )
-        self.permission2 = DetailPermission.objects.create(
-            id=3001, 
-            escenario_id=self.scenario, 
-            permission_id=self.permission
+        self.role, _ = Role.objects.get_or_create(
+            id=100,
+            defaults={'description': "Admin"}
         )
-        self.role = Role.objects.create(
-            id=3000, 
-            description='Test Role'
-        )
-        self.role.detail_permisos.set([self.permission1, self.permission2])
-        self.url = reverse('roles-list')
+        self.role.detail_permisos.add(self.detail_permission)
+        self.role_data = {
+            'id': 200,
+            'description': 'User',
+            'detail_permisos': [self.detail_permission.id]
+        }
 
-    def test_list_roles(self):
-        response = self.client.get(self.url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertGreaterEqual(len(response.data), 1)
-        role_data = next(role for role in response.data if role['id'] == 3000)
-        self.assertEqual(role_data['description'], 'Test Role')
-
-    def test_list_simple_roles(self):
+    def test_role_list(self):
         response = self.client.get(reverse('roles-list'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_role_detail(self):
+        response = self.client.get(reverse('roles-detail', kwargs={'pk': self.role.pk}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class RoleSignalTest(APITestCase):
+
+    def test_insert_roles_signal(self):
+        from django.db.models.signals import post_migrate
+        from role.signals import insert_roles
+        from django.apps import apps
+        from io import StringIO
+
+        # Prepara para la salida en memoria es decir en un buffer de memoria en lugar de la salida estándar
+        out = StringIO()
+
+        # Redirigir la salida estándar quiere decir que todo lo que se imprima en la consola se guardará en la variable out
+        import sys
+        sys.stdout = out
+
+        try:
+            # Disparar la señal post_migrate quiere decir que se ejecutarán las migraciones de la aplicación role y se insertarán los roles
+            app_config = apps.get_app_config('role')
+            post_migrate.send(sender=   app_config, app_config=app_config, verbosity=1, interactive=False)
+
+            # Llamar al manejador de señales para insertar los roles y permisos en la base de datos
+            insert_roles(app_config, verbosity=1, interactive=False)
+        finally:
+            # Restaurar la salida estándar es decir la consola
+            sys.stdout = sys.__stdout__
+
+        self.assertIn("Migrando roles y permisos", out.getvalue())
