@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-   
     "rest_framework",
     'rest_framework_simplejwt',
     "permissions.apps.PermissionsConfig",
@@ -100,9 +99,9 @@ EMAIL_HOST_PASSWORD = 'rkwimztoxomoonzv'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "TESTING_CRIFCAN_2",
+        "NAME": "CRIFCAN",
         "USER": "postgres",
-        "PASSWORD": "admin",
+        "PASSWORD": "1234",
         "HOST": "localhost",
         "PORT": "5432",
     }

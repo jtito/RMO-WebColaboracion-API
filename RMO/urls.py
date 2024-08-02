@@ -29,5 +29,4 @@ urlpatterns = [
     path("roles/",include("role.urls")),
     path("perfil/",include("perfil.urls")),
     path("permisos/", include("scenario_permissions.urls")),
-    path('usuarios/', include('usuarios.urls')),
 ]

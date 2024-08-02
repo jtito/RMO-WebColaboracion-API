@@ -26,4 +26,5 @@ env/
 
 .pytest_cache
 coverage
+.coverage
 .htmlcov
