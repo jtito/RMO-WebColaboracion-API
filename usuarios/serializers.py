@@ -84,3 +84,11 @@ class CountrySerializer(serializers.Serializer):
 class TypeDocSerializer(serializers.Serializer):
     value = serializers.CharField()
     display_name = serializers.CharField()
+
+class PasswordResetRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+class PasswordResetSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    token = serializers.CharField(max_length=6)
+    new_password = serializers.CharField(write_only=True)
