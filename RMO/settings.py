@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -31,7 +32,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-   
     "rest_framework",
     'rest_framework_simplejwt',
     "permissions.apps.PermissionsConfig",
@@ -64,7 +64,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
    
 ]
-
+CORS_ORIGIN_ALLOW_ALL = True
 ROOT_URLCONF = "RMO.urls"
 
 TEMPLATES = [
@@ -87,6 +87,13 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",  
 ]
 WSGI_APPLICATION = "RMO.wsgi.application"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'test.soporteramo@gmail.com'
+EMAIL_HOST_PASSWORD = 'rkwimztoxomoonzv'
 
 
 # Database

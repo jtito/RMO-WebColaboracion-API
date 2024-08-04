@@ -4,7 +4,6 @@ from .models import Scenario
 
 @receiver(post_migrate)
 def insert_escenarios(sender, **kwargs):
-    print("Insertando escenario")
     if sender.name == 'scenarios': 
         escenario = [
             (1, 'País'),

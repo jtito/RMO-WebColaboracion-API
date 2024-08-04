@@ -1,5 +1,7 @@
 from django.db import models
 from role.models import Role
+from django.utils import timezone
+import random
 # Create your models here.
 
 
@@ -72,3 +74,22 @@ class Usuario(models.Model):
 
     def get_type_doc_display(self):
         return dict(self.TYPEDOC_CHOICES).get(int(self.type_doc))
+
+class PasswordResetToken(models.Model):
+    user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    token = models.CharField(max_length=6, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+
+    def save(self, *args, **kwargs):
+        if not self.token:
+            self.token = str(random.randint(100000, 999999))  # Token de 6 dígitos
+        if not self.expires_at:
+            self.expires_at = timezone.now() + timezone.timedelta(hours=1)
+        super().save(*args, **kwargs)
+
+    def is_expired(self):
+        return timezone.now() > self.expires_at
+
+    def __str__(self):
+        return f"{self.user.email} - {self.token}"
