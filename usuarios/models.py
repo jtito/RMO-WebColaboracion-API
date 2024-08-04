@@ -17,7 +17,7 @@ class Usuario(models.Model):
         (2, "Carnet de extranjeria"),
         (3, "Pasaporte"),
     ]
-    role = models.ForeignKey(Role, on_delete=models.CASCADE)  
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, default=4)  
     name = models.CharField(max_length=255, blank=False, null=False)
     last_nameF = models.CharField(max_length=255, blank=False, null=False)
     last_nameS = models.CharField(max_length=255, blank=False, null=False)

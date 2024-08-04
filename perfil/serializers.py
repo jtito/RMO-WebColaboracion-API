@@ -1,7 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 from .models import Perfil
 from rest_framework import serializers
-from permissions.serializers import DetailPermisosSerializer
+from scenario_permissions.serializers import DetailPermisosSerializer
 
 class PerfilSerializer(ModelSerializer):
     detail_permisos = DetailPermisosSerializer(many=True, read_only = True)

@@ -30,5 +30,5 @@ urlpatterns = [
     path("permisos/", include("permissions.urls")),
     path("roles/",include("role.urls")),
     path("perfil/",include("perfil.urls")),
-
+    path("permisos/", include("scenario_permissions.urls")),
 ]
