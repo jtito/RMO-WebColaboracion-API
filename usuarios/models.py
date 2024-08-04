@@ -13,7 +13,7 @@ class Usuario(models.Model):
     ]
 
     TYPEDOC_CHOICES = [
-        (1, "DNI"),
+        (1, "Cédula de Identidad"),
         (2, "Carnet de extranjeria"),
         (3, "Pasaporte"),
     ]
