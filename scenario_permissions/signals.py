@@ -8,7 +8,6 @@ from django.dispatch import receiver
 @receiver(post_migrate)
 def insert_detalle_permisos(sender, **kwargs):
     if sender.name == "scenario_permissions":
-        print("Migrando escenario x permiso")
         escenario_permisos = [
             (1, 1, 1),
             (2, 1, 2),

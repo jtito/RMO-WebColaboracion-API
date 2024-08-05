@@ -25,5 +25,6 @@ settings.py
 
 
 .pytest_cache
+coverage
 .coverage
 .htmlcov
