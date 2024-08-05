@@ -17,9 +17,7 @@ def insert_perfil(sender, **kwargs):
                 id=perfil_id, defaults={"description": description}
             )
             if permissions:
-                permission_ids = permissions[0]  
-                print(f"Permisos asociados: {permission_ids}")
-                
+                permission_ids = permissions[0]                  
                 permission_objs = DetailPermission.objects.filter(id__in=permission_ids)
                 
                 perfil.detail_permisos.set(permission_objs)
