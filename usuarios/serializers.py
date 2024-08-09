@@ -26,7 +26,7 @@ class UserGetSerializer(ModelSerializer):
 class UserNameGetSerializer(ModelSerializer):
      class Meta:
         model = Usuario
-        fields = ['name','last_nameF','last_nameS']
+        fields = ['id','name','last_nameF','last_nameS']
 
 class UserPostPutSerializer(ModelSerializer):
     role = serializers.PrimaryKeyRelatedField(queryset=Role.objects.all())
