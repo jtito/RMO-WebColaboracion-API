@@ -2,6 +2,7 @@ from django.db import models
 from role.models import Role
 from django.utils import timezone
 import random
+
 # Create your models here.
 
 
@@ -19,7 +20,7 @@ class Usuario(models.Model):
         (2, "Carnet de extranjeria"),
         (3, "Pasaporte"),
     ]
-    role = models.ForeignKey(Role, on_delete=models.CASCADE)  
+    role = models.ForeignKey(Role, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, blank=False, null=False)
     last_nameF = models.CharField(max_length=255, blank=False, null=False)
     last_nameS = models.CharField(max_length=255, blank=False, null=False)
@@ -68,12 +69,12 @@ class Usuario(models.Model):
     def get_type_doc_choices():
         return Usuario.TYPEDOC_CHOICES
 
-
     def get_country_display(self):
         return dict(self.COUNTRIES_CHOICES).get(int(self.country))
 
     def get_type_doc_display(self):
         return dict(self.TYPEDOC_CHOICES).get(int(self.type_doc))
+
 
 class PasswordResetToken(models.Model):
     user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
