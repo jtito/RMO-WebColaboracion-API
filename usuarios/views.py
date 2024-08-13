@@ -91,3 +91,5 @@ class PasswordResetView(APIView):
             except (Usuario.DoesNotExist, PasswordResetToken.DoesNotExist):
                 return Response({"error": "Token inválido o usuario no encontrado."}, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
