@@ -41,7 +41,7 @@ class DocumentGETSerializer(ModelSerializer):
     typeDoc = TypeDocumentGETSerializer()
     user_perfil = PerfilxDocsGETSerializer(many=True) 
     state = StateDocumentGETSerializer()
-
+    usuario_creador = UserNameGetSerializer()
     class Meta:
         model = Document
         fields = "__all__"
@@ -53,7 +53,7 @@ class DocumentPOSTSerializer(ModelSerializer):
     user_perfil = serializers.PrimaryKeyRelatedField(
         queryset=PerfilDocument.objects.all(), many=True, required=False, allow_null = True
     )
-
+    usuario_creador = serializers.PrimaryKeyRelatedField(queryset=Usuario.objects.all())
     class Meta:
         model = Document
         fields = "__all__"

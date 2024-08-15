@@ -5,6 +5,8 @@ from rest_framework import serializers
 from django.contrib.auth.hashers import check_password
 from role.serializers import RoleSerializer
 from role.models import Role
+from .email import send_email
+
 
 class UserGetSerializer(ModelSerializer):
     country_display = serializers.SerializerMethodField()
@@ -14,7 +16,20 @@ class UserGetSerializer(ModelSerializer):
 
     class Meta:
         model = Usuario
-        fields = ['id','role','name','last_nameF','last_nameS','country_display','type_doc_display','doc_num','email','is_active','create_at','updated_at']
+        fields = [
+            "id",
+            "role",
+            "name",
+            "last_nameF",
+            "last_nameS",
+            "country_display",
+            "type_doc_display",
+            "doc_num",
+            "email",
+            "is_active",
+            "create_at",
+            "updated_at",
+        ]
 
     def get_type_doc_display(self, obj):
         return obj.get_type_doc_display()
@@ -24,9 +39,10 @@ class UserGetSerializer(ModelSerializer):
 
 
 class UserNameGetSerializer(ModelSerializer):
-     class Meta:
+    class Meta:
         model = Usuario
-        fields = ['name','last_nameF','last_nameS']
+        fields = ["id", "name", "last_nameF", "last_nameS"]
+
 
 class UserPostPutSerializer(ModelSerializer):
     role = serializers.PrimaryKeyRelatedField(queryset=Role.objects.all())
@@ -39,12 +55,24 @@ class UserPostPutSerializer(ModelSerializer):
     def create(self, validated_data):
         if "password" in validated_data:
             validated_data["password"] = make_password(validated_data["password"])
-        return super().create(validated_data)
+            # Create the user
+        user = super().create(validated_data)
+
+        subject = "Bienvenido a nuestra plataforma"
+        message = f"Hola {user.name} {user.last_nameF} ,\n\n Acabas de ser registrado en el portal COLABORATIVO CRIFCAN"
+        send_email(subject, message, user.email)
+
+        return user
 
     def update(self, instance, validated_data):
         if "password" in validated_data:
             validated_data["password"] = make_password(validated_data["password"])
-        return super().update(instance, validated_data)
+        user = super().update(instance,validated_data)
+        subject = "Cambio de contraseña"
+        message = f"Hola {user.name} {user.last_nameF} ,\n\n Acabas de hacer un cambio de contraseña"
+        send_email(subject, message, user.email)
+
+        return user
 
 
 class LoginSerializer(serializers.Serializer):
@@ -85,8 +113,10 @@ class TypeDocSerializer(serializers.Serializer):
     value = serializers.CharField()
     display_name = serializers.CharField()
 
+
 class PasswordResetRequestSerializer(serializers.Serializer):
     email = serializers.EmailField()
+
 
 class PasswordResetSerializer(serializers.Serializer):
     email = serializers.EmailField()
